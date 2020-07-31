@@ -1,0 +1,15 @@
+{
+    "_total": 1,
+    "users": [
+        {
+            "display_name": "dj_ignifluous",
+            "_id": "512690582",
+            "name": "dj_ignifluous",
+            "type": "user",
+            "bio": "DJ and fire performer playing primarily Drum & Bass, Deep House, Dubstep, Trap, and any other nice bass electronic dance music. ",
+            "created_at": "2020-04-11T23:44:28.848601Z",
+            "updated_at": "2020-07-31T02:37:11.225984Z",
+            "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/cde2e593-e66d-4da9-83d7-64c46b84edb9-profile_image-300x300.png"
+        }
+    ]
+}
