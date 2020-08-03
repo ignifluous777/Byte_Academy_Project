@@ -20,13 +20,13 @@ class Users(ORM):
             values = (self.username, self.password)
             cursor.execute(sql, values)
 
-    # def _update(self):
-    # """Add a new account to the database
-    # """
-    # with sqlite3.connect(self.dbpath) as conn:
-    #     cursor = conn.cursor()
-    #     sql = """UPDATE accounts SET api_key=?, balance=? WHERE pk=?"""
-    #     cursor.execute(sql, (self.api_key, self.balance, self.pk))
+    def _update(self):
+    """Update performer in the database
+    """
+    with sqlite3.connect(self.dbpath) as conn:
+        cursor = conn.cursor()
+        sql = """UPDATE accounts SET api_key=?, balance=? WHERE pk=?"""
+        cursor.execute(sql, (self.api_key, self.balance, self.pk))
 
 
 
