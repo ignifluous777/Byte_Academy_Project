@@ -10,7 +10,8 @@ def schema(dbpath="twitchapp.db"):
             email VARCHAR(32) UNIQUE NOT NULL,
             twitch_un VARCHAR(16) UNIQUE NOT NULL,
             twitch_id VARCHAR(16) UNIQUE NOT NULL,
-            password VARCHAR(128)
+            password VARCHAR(128),
+            auth_token VARCHAR(16)
         );""")
 
         cur.execute("""
