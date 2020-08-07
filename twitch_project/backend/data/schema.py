@@ -29,9 +29,7 @@ def schema(dbpath="twitchapp.db"):
             user_id VARCHAR(16),
             performer_id VARCHAR(16),
             """)
-        
-        # SELECT * FROM user_follows WHERE user_id = ignifluous;
-        # SELECT * FROM user_follows WHERE performer_id = something;
+
 
 # if __name__ == "__main__":
 #     schema()

@@ -25,7 +25,7 @@ class Users(ORM):
                         ) VALUES(?, ?, ?, ?)"""
             values = (self.email, self.twitch_un, self.twitch_id, self.password)
             cursor.execute(sql, values)
-            # add performers by user and tie them to each to users probably don't want
+            # add performers by user and tie them to each to users probably don't want here
 
     @staticmethod
     def lookup_id(twitch_username):
@@ -46,13 +46,13 @@ class Users(ORM):
         return follows
 
     @staticmethod
-    def my_performers(self):
+    def my_performers(twitch_id):
         with sqlite3.connect(cls.dbpath) as conn:
-        cursor = conn.cursor()
-        sql = f"""SELECT * FROM user_follows WHERE twitch_id = {self.twitch_id}"""
-        cursor.execute(sql)
-        return cursor.fetchall()
-        # can optimize in future with a SQL JOIN
+            cursor = conn.cursor()
+            sql = f"""SELECT * FROM user_follows WHERE twitch_id = {twitch_id}"""
+            cursor.execute(sql)
+            return cursor.fetchall()
+            # can optimize in future with a SQL JOIN
 
     # know whether they have an account to make sure we don't create duplicates
     @classmethod
@@ -61,33 +61,33 @@ class Users(ORM):
             cursor = conn.cursor()
             sql = f"""SELECT * FROM users WHERE email = {input_email}"""
             cursor.execute(sql)
-        if cursor.fetchone():
-            return True
-        return False
-        # return cls.select_one_where(f"WHERE email = {input_email}")
+            if cursor.fetchone():
+                return True
+            return False
+            # return cls.select_one_where(f"WHERE email = {input_email}")
 
     # login in -- check credentials and do something to denote logged in status to react 
     @classmethod
     def login(cls, email, password):
         with sqlite3.connect(cls.dbpath) as conn:
-        cursor = conn.cursor()
-        sql = f"""SELECT * FROM users WHERE email = {email} AND password = {password}"""
-        cursor.execute(sql)
-        user = cursor.fetchone()
-        if user:
-            letters = string.ascii_letters
-            token = ''.join(random.choice(letters) for i in range(16))
-            self.auth_token = token
-            insert_token(email, self.auth_token)
-            return "Success"
-        return ""
+            cursor = conn.cursor()
+            sql = f"""SELECT * FROM users WHERE email = {email} AND password = {password}"""
+            cursor.execute(sql)
+            user = cursor.fetchone()
+            if user:
+                letters = string.ascii_letters
+                token = ''.join(random.choice(letters) for i in range(16))
+                self.auth_token = token
+                insert_token(email, self.auth_token)
+                return token
+            return ""
 
     @staticmethod
     def insert_token(email, token):
         with sqlite3.connect(cls.dbpath) as conn:
-        cursor = conn.cursor()
-        sql = f"""UPDATE users SET auth_token = {token} WHERE email = {email}"""
-        cursor.execute(sql)
+            cursor = conn.cursor()
+            sql = f"""UPDATE users SET auth_token = {token} WHERE email = {email}"""
+            cursor.execute(sql)
 
     # know whether they're logged in --> from react's PoV
     # return some data from the database that can be sotred client-side and validated
@@ -96,14 +96,15 @@ class Users(ORM):
         # select statement here to see if data exists where our unique id = input id
         # might return an instance, or a tuple etc.
         with sqlite3.connect(cls.dbpath) as conn:
-        cursor = conn.cursor()
-        sql = f"""SELECT * FROM users WHERE token = {token}"""
-        cursor.execute(sql)
-        if cursor.fetchone():
-            # if token not there
-            return True
-        return False
+            cursor = conn.cursor()
+            sql = f"""SELECT * FROM users WHERE token = {token}"""
+            cursor.execute(sql)
+            if cursor.fetchall():
+                # if token not there
+                return cursor.fetchall()
+            return False
 
+    # this will be called by a synch performers from twitch you your library function in flask
     @classmethod
     def performers_by_music(cls, user_id):
         # filter out the Musicians from a users follows
@@ -117,28 +118,15 @@ class Users(ORM):
                                    performer["channel"]["profile_banner"],
                                   )
             new_artist._insert()
+            new_artist.bind_user_perf(user_id)
     
     def logout(self):
         with sqlite3.connect(cls.dbpath) as conn:
-        cursor = conn.cursor()
-        sql = f"""UPDATE users SET auth_token = NULL WHERE email = {self.email}"""
-        cursor.execute(sql)
-        self.auth_token = None
+            cursor = conn.cursor()
+            sql = f"""UPDATE users SET auth_token = NULL WHERE email = {self.email}"""
+            cursor.execute(sql)
+            self.auth_token = None
 
-    #  look up and set twitch id from twitch_un that is given
-    # def set_twitch_id(self, _twitch_un):
-    #     # get id from twitch using username
-    #     self.twitch_id = lookup_id(_twitch_un)
-    #     return self.twitch_id
-
-    # don't think this is needed now
-    # @classmethod
-    # def select_one_where(class, where_string):
-    #     with sqlite3.connect(cls.dbpath) as conn:
-    #     cursor = conn.cursor()
-    #     sql = f"""SELECT * FROM users """ + where_string
-    #     cursor.execute(sql)
-    #     return cursor.fetchone()
 
 
 
