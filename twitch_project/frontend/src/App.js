@@ -1,24 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
+import { useStateWithSessionStorage } from './components/models';
+import { BrowserRouter } from 'react-router-dom';
+import NavBar from './components/navbar';
+import Router from './components/router';
 import './App.css';
 
 function App() {
+  const [token, setToken] = useStateWithSessionStorage("token", "");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <NavBar token={token} setToken={setToken}/>
+        <Router token={token} setToken={setToken} />
+      </BrowserRouter>
     </div>
   );
 }
