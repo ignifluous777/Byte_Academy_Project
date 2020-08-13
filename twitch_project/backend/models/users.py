@@ -1,13 +1,13 @@
 import sqlite3, random, string
 from .orm import ORM
-from .performers import Performers
+# from .performers import Performers
 
 
 class Users(ORM):
 
     def __init__(self, email, twitch_un, password, pk=None, twitch_id=None, auth_token=None):
         self.pk = pk
-        self.email
+        self.email = email
         self.twitch_un = twitch_un
         self.twitch_id = twitch_id
         #hash here or elsewhere
@@ -22,7 +22,7 @@ class Users(ORM):
                 self.twitch_id = lookup_id(self.twitch_un)
             sql = """INSERT INTO users (
                         email, twitch_un, twitch_id, password
-                        ) VALUES(?, ?, ?, ?)"""
+                        ) VALUES(?, ?, ?, ?);"""
             values = (self.email, self.twitch_un, self.twitch_id, self.password)
             cursor.execute(sql, values)
             # add performers by user and tie them to each to users probably don't want here
@@ -49,8 +49,9 @@ class Users(ORM):
     def my_performers(twitch_id):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""SELECT * FROM user_follows WHERE twitch_id = {twitch_id}"""
-            cursor.execute(sql)
+            sql = """SELECT * FROM user_follows WHERE twitch_id=? VALUES (?);"""
+            values = (twitch_id)
+            cursor.execute(sql, values)
             return cursor.fetchall()
             # can optimize in future with a SQL JOIN
 
@@ -59,8 +60,9 @@ class Users(ORM):
     def email_exists(cls, input_email):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""SELECT * FROM users WHERE email = {input_email}"""
-            cursor.execute(sql)
+            sql = """SELECT * FROM users WHERE email=? VALUES (?);"""
+            values = input_email
+            cursor.execute(sql, values)
             if cursor.fetchone():
                 return True
             return False
@@ -71,9 +73,10 @@ class Users(ORM):
     def login(cls, email, password):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""SELECT * FROM users WHERE email = {email} AND password = {password}"""
-            cursor.execute(sql)
-            user = cursor.fetchone()
+            sql = """SELECT * FROM users WHERE email=? AND password=? VALUES(?,?);"""
+            values = (email, password)
+            cursor.execute(sql, values)
+            user = cursor.fetchall()
             if user:
                 letters = string.ascii_letters
                 token = ''.join(random.choice(letters) for i in range(16))
@@ -86,8 +89,9 @@ class Users(ORM):
     def insert_token(email, token):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""UPDATE users SET auth_token = {token} WHERE email = {email}"""
-            cursor.execute(sql)
+            sql = """UPDATE users SET auth_token=? WHERE email=? VALUES(?,?);"""
+            values = (email, token)
+            cursor.execute(sql, values)
 
     # know whether they're logged in --> from react's PoV
     # return some data from the database that can be sotred client-side and validated
@@ -97,8 +101,9 @@ class Users(ORM):
         # might return an instance, or a tuple etc.
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""SELECT * FROM users WHERE token = {token}"""
-            cursor.execute(sql)
+            sql = """SELECT * FROM users WHERE token=? VALUES (?);"""
+            values = (token)
+            cursor.execute(sql, values)
             if cursor.fetchall():
                 # if token not there
                 return cursor.fetchall()
@@ -110,7 +115,6 @@ class Users(ORM):
         # filter out the Musicians from a users follows
         performers = get_performers(user_id).filter(
             lambda x: x["channel"]["game"] == "Music & Performing Arts")
-        )
         for performer in performers:
             new_artist = Performer(performer["channel"]["_id"],
                                    performer["channel"]["name"],
@@ -123,8 +127,9 @@ class Users(ORM):
     def logout(self):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = f"""UPDATE users SET auth_token = NULL WHERE email = {self.email}"""
-            cursor.execute(sql)
+            sql = """UPDATE users SET auth_token = NULL WHERE email=? VALUES (?);"""
+            values = (self.email)
+            cursor.execute(sql, values)
             self.auth_token = None
 
 

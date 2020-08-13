@@ -1,6 +1,6 @@
 import sqlite3
 from .orm import ORM
-from .users import Users
+# from .users import Users
 
 class Performers(ORM):
 
@@ -15,13 +15,13 @@ class Performers(ORM):
     # Add a new performer to the database
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql1 = f"""SELECT * from performers WHERE id = {self.twitch_id}"""
+            sql1 = f"""SELECT * from performers WHERE id = '{self.twitch_id}';'"""
             cursor.execute(sql1)
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO performers (
                             id, username, bio, prof_pic
-                            ) VALUES(?,?,?,?)"""
+                            ) VALUES(?,?,?,?);"""
                 values = (self.id, self.username, self.bio, self.prof_pic)
                 cursor.execute(sql2, values)
 
@@ -29,13 +29,13 @@ class Performers(ORM):
     # Tie a user with a performer
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql1 = f"""SELECT * from user_follows WHERE user_id = {user_id} AND performer_id = {self.twitch_id}"""
+            sql1 = f"""SELECT * from user_follows WHERE user_id = '{user_id}'' AND performer_id = '{self.twitch_id}';'"""
             cursor.execute(sql1)
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO user_follows (
                             user_id, performer_id
-                            ) VALUES(?,?)"""
+                            ) VALUES(?,?);"""
                 values = (user_id, self.twitch_id)
                 cursor.execute(sql2, values)
     
@@ -43,5 +43,5 @@ class Performers(ORM):
     # Update performer in the database
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """UPDATE performers SET bio=?, prof_pic=? WHERE twitch_id=?"""
+            sql = """UPDATE performers SET bio=?, prof_pic=? WHERE twitch_id=? VALUES(?,?,?);"""
             cursor.execute(sql, (self.bio, self.prof_pic, self.twitch_id))

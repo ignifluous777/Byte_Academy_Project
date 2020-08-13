@@ -19,12 +19,12 @@ export const postRequest = async (endpoint, data) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   }
-  const response = await fetch(`http://localhost:3000/${endpoint}`, params);
+  const response = await fetch(`http://localhost:5000/${endpoint}`, params);
   return response.json();
 }
 
 export const getRequest = async (endpoint) => {
-  const response = await fetch(`http://localhost:3000/${endpoint}`);
+  const response = await fetch(`http://localhost:5000/${endpoint}`);
   return response.json()
 }
 

@@ -3,7 +3,7 @@ import sqlite3
 
 class ORM:
 
-    dbpath = "twitchapp.db"
+    dbpath = "data/twitchapp.db"
 
     def __init__(self):
         raise NotImplementedError

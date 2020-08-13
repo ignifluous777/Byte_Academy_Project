@@ -1,6 +1,6 @@
-from flask.controller import app
-from models import ORM
+from flask_app.controller import app
+from models import orm
 
-ORM.dbpath = "data/twitchapp.db"
+orm.dbpath = "data/twitchapp.db"
 
 app.run()

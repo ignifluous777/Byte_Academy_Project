@@ -19,7 +19,7 @@ export default function Signup() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email: email, twitch_un: twitchUn, password: password})
         };
-        const response = await fetch("http://localhost:3000/api/create_account", configs);
+        const response = await fetch("http://localhost:5000/api/create_account", configs);
         const data = await response.json();
         console.log(data);
         };

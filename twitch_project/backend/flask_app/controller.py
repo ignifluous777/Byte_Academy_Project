@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from models import Users, Performers
+from models.users import Users
+from models.performers import Performers
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/api/login", methods=["POST"]
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
     # authenticate our account
@@ -17,7 +18,7 @@ def login():
     # return (json that tells React we are not successful)
     return json({"token": ""})
 
-@app.route("/api/create_account", methods=["POST"]
+@app.route("/api/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
     exists = Users.email_exists(data.get("email"))
@@ -27,7 +28,7 @@ def create_account():
         return jsonify({"create": "successful"})
     return jsonify({"create": ""})
     
-@app.route("/api/logout", methods=["POST"]
+@app.route("/api/logout", methods=["POST"])
 def logout():
     token = request.json().get("token")
     user_id = Users.authenticate(token)
@@ -36,7 +37,7 @@ def logout():
     return jsonify({"logout": "successful"})
 
 
-@app.route("/api/get_my_performers", methods=["POST"]
+@app.route("/api/get_my_performers", methods=["POST"])
 def get_my_performers():
     # this will need to get token from session and match to twitch_id
     token = request.json().get("token")
@@ -46,7 +47,7 @@ def get_my_performers():
     # return all those performers to React
     return jsonify(performers)
 
-@app.route("/api/synch_twitch_performers", methods=["POST"]
+@app.route("/api/synch_twitch_performers", methods=["POST"])
 def synch_performers():
     # get user_id/token from session
     token = request.json().get("token")
@@ -58,7 +59,7 @@ def synch_performers():
     performers = User.my_performers(user_info[2])
     return jsonify(performers)
 
-@app.route("/api/schedule_sets", methods=["POST"]
+@app.route("/api/schedule_sets", methods=["POST"])
 def schedule():
     # authenticate user
     token = request.json().get("token")
