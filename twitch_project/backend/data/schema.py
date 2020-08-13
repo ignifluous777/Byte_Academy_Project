@@ -30,14 +30,14 @@ def schema(dbpath="twitchapp.db"):
         #     performer_id VARCHAR(16)
         # );""")
 
-        cur.execute("""
-        INSERT INTO users 
-            (email, twitch_un, twitch_id, password)
-            VALUES ('testE', 'testUN', 'testID', 'testPass');
-            """)
+        # cur.execute("""
+        # INSERT INTO users 
+        #     (email, twitch_un, twitch_id, password)
+        #     VALUES ('testE', 'testUN', 'testID', 'testPass');
+        #     """)
 
 
-# if __name__ == "__main__":
-#     schema()
+if __name__ == "__main__":
+    schema()
 
-schema()
+# schema()

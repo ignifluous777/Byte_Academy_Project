@@ -3,4 +3,7 @@ from models import orm
 
 orm.dbpath = "data/twitchapp.db"
 
-app.run()
+# app.run()
+
+if __name__ == "__main__":
+    app.run(debug=True)

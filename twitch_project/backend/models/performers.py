@@ -15,7 +15,8 @@ class Performers(ORM):
     # Add a new performer to the database
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql1 = f"""SELECT * from performers WHERE id = '{self.twitch_id}';'"""
+            sql1 = """SELECT * from performers WHERE id=? VALUES (?);"""
+            values = (self.twitch_id)
             cursor.execute(sql1)
             exists = cursor.fetchone()
             if not exists:
@@ -29,19 +30,21 @@ class Performers(ORM):
     # Tie a user with a performer
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql1 = f"""SELECT * from user_follows WHERE user_id = '{user_id}'' AND performer_id = '{self.twitch_id}';'"""
-            cursor.execute(sql1)
+            sql1 = """SELECT * from user_follows WHERE user_id=? AND performer_id=?;"""
+            values1 = (user_id, self.twitch_id)
+            cursor.execute(sql1, values1)
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO user_follows (
                             user_id, performer_id
                             ) VALUES(?,?);"""
-                values = (user_id, self.twitch_id)
-                cursor.execute(sql2, values)
+                values2 = (user_id, self.twitch_id)
+                cursor.execute(sql2, values2)
     
     def _update(self):
-    # Update performer in the database
+    # Update performer in the database, will add much more functionality later
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """UPDATE performers SET bio=?, prof_pic=? WHERE twitch_id=? VALUES(?,?,?);"""
-            cursor.execute(sql, (self.bio, self.prof_pic, self.twitch_id))
+            sql = """UPDATE performers SET bio=?, prof_pic=? WHERE twitch_id=?;"""
+            values = (self.bio, self.prof_pic, self.twitch_id)
+            cursor.execute(sql, values)

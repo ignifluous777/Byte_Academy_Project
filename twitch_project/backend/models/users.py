@@ -49,8 +49,7 @@ class Users(ORM):
     def my_performers(twitch_id):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM user_follows WHERE twitch_id=? VALUES (?);"""
-            values = (twitch_id)
+            sql = """SELECT * FROM user_follows WHERE twitch_id=?;"""
             cursor.execute(sql, values)
             return cursor.fetchall()
             # can optimize in future with a SQL JOIN
@@ -60,37 +59,34 @@ class Users(ORM):
     def email_exists(cls, input_email):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM users WHERE email=? VALUES (?);"""
-            values = input_email
-            cursor.execute(sql, values)
+            sql = """SELECT * FROM users WHERE email=?;"""
+            cursor.execute(sql, input_email)
             if cursor.fetchone():
                 return True
             return False
-            # return cls.select_one_where(f"WHERE email = {input_email}")
 
     # login in -- check credentials and do something to denote logged in status to react 
     @classmethod
     def login(cls, email, password):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM users WHERE email=? AND password=? VALUES(?,?);"""
+            sql = """SELECT * FROM users WHERE email=? AND password=?;"""
             values = (email, password)
             cursor.execute(sql, values)
             user = cursor.fetchall()
             if user:
                 letters = string.ascii_letters
                 token = ''.join(random.choice(letters) for i in range(16))
-                self.auth_token = token
-                insert_token(email, self.auth_token)
+                cls.insert_token(email, token)
                 return token
             return ""
 
-    @staticmethod
-    def insert_token(email, token):
+    @classmethod
+    def insert_token(cls, email, token):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """UPDATE users SET auth_token=? WHERE email=? VALUES(?,?);"""
-            values = (email, token)
+            sql = """UPDATE users SET auth_token=? WHERE email=?;"""
+            values = (token, email)
             cursor.execute(sql, values)
 
     # know whether they're logged in --> from react's PoV
@@ -101,9 +97,8 @@ class Users(ORM):
         # might return an instance, or a tuple etc.
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM users WHERE token=? VALUES (?);"""
-            values = (token)
-            cursor.execute(sql, values)
+            sql = """SELECT * FROM users WHERE token=?;"""
+            cursor.execute(sql, token)
             if cursor.fetchall():
                 # if token not there
                 return cursor.fetchall()
@@ -127,9 +122,8 @@ class Users(ORM):
     def logout(self):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """UPDATE users SET auth_token = NULL WHERE email=? VALUES (?);"""
-            values = (self.email)
-            cursor.execute(sql, values)
+            sql = """UPDATE users SET auth_token = NULL WHERE email=?;"""
+            cursor.execute(sql, self.email)
             self.auth_token = None
 
 
