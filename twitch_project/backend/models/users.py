@@ -1,4 +1,4 @@
-import sqlite3, random, string
+import sqlite3, random, string, requests
 from .orm import ORM
 # from .performers import Performers
 
@@ -19,7 +19,7 @@ class Users(ORM):
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
             if not self.twitch_id:
-                self.twitch_id = lookup_id(self.twitch_un)
+                self.twitch_id = Users.lookup_id(self.twitch_un)
             sql = """INSERT INTO users (
                         email, twitch_un, twitch_id, password
                         ) VALUES(?, ?, ?, ?);"""
@@ -60,7 +60,7 @@ class Users(ORM):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
             sql = """SELECT * FROM users WHERE email=?;"""
-            cursor.execute(sql, input_email)
+            cursor.execute(sql, (input_email,))
             if cursor.fetchone():
                 return True
             return False
@@ -120,11 +120,11 @@ class Users(ORM):
             new_artist.bind_user_perf(user_id)
     
     def logout(self):
-        with sqlite3.connect(cls.dbpath) as conn:
+        with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
             sql = """UPDATE users SET auth_token = NULL WHERE email=?;"""
-            cursor.execute(sql, self.email)
-            self.auth_token = None
+            cursor.execute(sql, (self.email,))
+            # self.auth_token = None
 
 
 

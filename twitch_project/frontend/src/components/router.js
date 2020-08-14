@@ -9,9 +9,10 @@ import Logout from './logout'
 export default function Router ({ token, setToken }) {
   return (
     <div>
-      { token ? 
+      {/* { token ?  */}
         <>
           <Redirect from="/" to="/user_home" />
+          <Route path="/signup" component={Signup} />
           <Route path="/user_home" component={User_home} />
           <Route path="/scheduler" component={Scheduler} />
           <Route path="/logout" component={Logout} />
@@ -22,9 +23,9 @@ export default function Router ({ token, setToken }) {
           <Route path="/login" >
             <Login setToken={setToken} component={Login}/>
           </Route>
-          <Route path="/signup" component={Signup} />
+          {/* <Route path="/signup" component={Signup} /> */}
         </>
-      }
+      {/* } */}
     </div>
   )
 }
