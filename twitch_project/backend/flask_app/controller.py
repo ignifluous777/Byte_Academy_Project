@@ -51,13 +51,14 @@ def get_my_performers():
 @app.route("/api/synch_twitch_performers", methods=["POST"])
 def synch_performers():
     # get user_id/token from session
-    token = request.json().get("token")
-    user_id = Users.authenticate(token)
-    user = Users(user_info[0], user_info[1], user_info[2])
+    # token = request.json().get("token")
+    # user_id = Users.authenticate(token)
+    # user = Users(user_info[0], user_info[1], user_info[2])
+    user = Users("testE3", "dj_ignifluous", "testPW3", twitch_id="512690582")
     # make call to twitch for this user
-    Users.performers_by_music(user_info[2])
+    user.performers_by_music("512690582")
     # return all user follows from DB
-    performers = User.my_performers(user_info[2])
+    performers = user.my_performers("512690582")
     return jsonify(performers)
 
 @app.route("/api/schedule_sets", methods=["POST"])

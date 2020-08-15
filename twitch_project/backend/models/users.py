@@ -108,7 +108,7 @@ class Users(ORM):
     @classmethod
     def performers_by_music(cls, user_id):
         # filter out the Musicians from a users follows
-        performers = get_performers(user_id).filter(
+        performers = Users.get_performers(user_id).filter(
             lambda x: x["channel"]["game"] == "Music & Performing Arts")
         for performer in performers:
             new_artist = Performer(performer["channel"]["_id"],

@@ -15,16 +15,16 @@ class Performers(ORM):
     # Add a new performer to the database
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
-            sql1 = """SELECT * from performers WHERE id=? VALUES (?);"""
-            values = (self.twitch_id)
-            cursor.execute(sql1)
+            sql1 = """SELECT * from performers WHERE id=?;"""
+            values1 = (self.twitch_id)
+            cursor.execute(sql1, values1)
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO performers (
                             id, username, bio, prof_pic
                             ) VALUES(?,?,?,?);"""
-                values = (self.id, self.username, self.bio, self.prof_pic)
-                cursor.execute(sql2, values)
+                values2 = (self.id, self.username, self.bio, self.prof_pic)
+                cursor.execute(sql2, values2)
 
     def bind_user_perf(self, user_id):
     # Tie a user with a performer
