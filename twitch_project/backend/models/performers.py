@@ -16,14 +16,14 @@ class Performers(ORM):
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
             sql1 = """SELECT * from performers WHERE id=?;"""
-            values1 = (self.twitch_id)
+            values1 = (self.twitch_id,)
             cursor.execute(sql1, values1)
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO performers (
-                            id, username, bio, prof_pic
+                            id, username, bio, logo
                             ) VALUES(?,?,?,?);"""
-                values2 = (self.id, self.username, self.bio, self.prof_pic)
+                values2 = (self.twitch_id, self.username, self.bio, self.prof_pic)
                 cursor.execute(sql2, values2)
 
     def bind_user_perf(self, user_id):

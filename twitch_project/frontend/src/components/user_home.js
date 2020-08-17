@@ -3,6 +3,8 @@ import { postRequest } from './models';
 
 function User_home() {
 
+  const [output, setOutput] = useState("");
+
   const synch = async () => {
     const configs = {
       method: "POST",
@@ -12,11 +14,13 @@ function User_home() {
     };
     const response = await fetch("http://localhost:5000/api/synch_twitch_performers", configs);
     const data = await response.json();
+    setOutput(data)
     console.log(data);
   }
 return(
     <div>
         <button onClick={synch}>Synch</button>
+        <p>{output}</p>
     </div>
 )
 }

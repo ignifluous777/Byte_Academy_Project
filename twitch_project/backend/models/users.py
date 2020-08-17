@@ -1,7 +1,7 @@
 import sqlite3, random, string, requests
 from .orm import ORM
-# from .performers import Performers
-
+from .performers import Performers
+from pprint import pprint
 
 class Users(ORM):
 
@@ -40,18 +40,28 @@ class Users(ORM):
     def get_performers(user_id):
         headers = {"Accept" : "application/vnd.twitchtv.v5+json",
                    "Client-ID": "3vgotwd98a0sj62us9ivoyp4rbuwdf"}
-        endpoint = f"https://api.twitch.tv/kraken/users/{user_id}/follows/channels?limit=100&offset=100"
+        endpoint = f"https://api.twitch.tv/kraken/users/{user_id}/follows/channels?limit=100"
         resp = requests.get(endpoint, headers=headers).json()
         follows = resp["follows"]
         return follows
 
-    @staticmethod
-    def my_performers(twitch_id):
+    @classmethod
+    def my_performers(cls, twitch_id):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM user_follows WHERE twitch_id=?;"""
-            cursor.execute(sql, values)
-            return cursor.fetchall()
+            sql = """SELECT performer_id FROM user_follows WHERE user_id=?;"""
+            cursor.execute(sql, (twitch_id,))
+            perf_ids = cursor.fetchall()
+            perf_lst = []
+            for tup in perf_ids:
+                perf_lst.append(tup[0])
+            print(perf_lst)
+            data = []
+            for p_id in perf_lst:
+                sql2 = """SELECT username, bio, logo FROM performers WHERE id=?;"""
+                cursor.execute(sql2, (p_id,))
+                data.append(cursor.fetchall())
+            return data
             # can optimize in future with a SQL JOIN
 
     # know whether they have an account to make sure we don't create duplicates
@@ -108,10 +118,11 @@ class Users(ORM):
     @classmethod
     def performers_by_music(cls, user_id):
         # filter out the Musicians from a users follows
-        performers = Users.get_performers(user_id).filter(
-            lambda x: x["channel"]["game"] == "Music & Performing Arts")
+        perf_check = Users.get_performers(user_id)
+        # pprint(perf_check)
+        performers = filter((lambda x: x["channel"]["game"] == "Music & Performing Arts"), perf_check)    
         for performer in performers:
-            new_artist = Performer(performer["channel"]["_id"],
+            new_artist = Performers(performer["channel"]["_id"],
                                    performer["channel"]["name"],
                                    performer["channel"]["description"],
                                    performer["channel"]["profile_banner"],
