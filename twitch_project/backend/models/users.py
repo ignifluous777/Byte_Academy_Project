@@ -55,22 +55,24 @@ class Users(ORM):
             perf_lst = []
             for tup in perf_ids:
                 perf_lst.append(tup[0])
-            print(perf_lst)
             data = []
             for p_id in perf_lst:
                 sql2 = """SELECT username, bio, logo FROM performers WHERE id=?;"""
                 cursor.execute(sql2, (p_id,))
                 data.append(cursor.fetchall())
             return data
-            # can optimize in future with a SQL JOIN
 
     # know whether they have an account to make sure we don't create duplicates
     @classmethod
-    def email_exists(cls, input_email):
+    def email_exists(cls, input_email, twitch_un):
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
             sql = """SELECT * FROM users WHERE email=?;"""
-            cursor.execute(sql, (input_email,))
+            cursor.execute(sql, (input_email, ))
+            if cursor.fetchone():
+                return True
+            sql2 = """SELECT * FROM users WHERE twitch_un=?;"""
+            cursor.execute(sql2, (twitch_un, ))
             if cursor.fetchone():
                 return True
             return False
@@ -105,7 +107,6 @@ class Users(ORM):
     def authenticate(cls, token):
         # select statement here to see if data exists where our unique id = input id
         # might return an instance, or a tuple etc.
-        print(token)
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
             sql = """SELECT * FROM users WHERE auth_token=?;"""
@@ -131,6 +132,8 @@ class Users(ORM):
                                   )
             new_artist._insert()
             new_artist.bind_user_perf(user_id)
+        if perf_check:
+            return True
     
     def logout(self):
         with sqlite3.connect(self.dbpath) as conn:

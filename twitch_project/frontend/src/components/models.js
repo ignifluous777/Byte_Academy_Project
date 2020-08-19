@@ -12,21 +12,21 @@ import React, { useEffect, useState } from 'react';
 //   }
 // }
 
-export const postRequest = async (endpoint, data) => {
-  const params = {
-    method: "POST",
-    mode: "cors",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  }
-  const response = await fetch(`http://localhost:5000/${endpoint}`, params);
-  return response.json();
-}
+// export const postRequest = async (endpoint, data) => {
+//   const params = {
+//     method: "POST",
+//     mode: "cors",
+//     headers: {'Content-Type': 'application/json'},
+//     body: JSON.stringify(data)
+//   }
+//   const response = await fetch(`http://localhost:5000/${endpoint}`, params);
+//   return response.json();
+// }
 
-export const getRequest = async (endpoint) => {
-  const response = await fetch(`http://localhost:5000/${endpoint}`);
-  return response.json()
-}
+// export const getRequest = async (endpoint) => {
+//   const response = await fetch(`http://localhost:5000/${endpoint}`);
+//   return response.json()
+// }
 
 export const useStateWithSessionStorage = (key, initial) => {
   const [value, setValue] = useState(sessionStorage.getItem(key || initial));

@@ -13,15 +13,14 @@ def login():
     token = Users.login(data.get("email"), data.get("password"))
     # if the account exists, return auth token
     if token:
-        # return (json with id to log in here)
         return jsonify({"token": token})
     # return (json that tells React we are not successful)
-    return json({"token": ""})
+    return jsonify({"token": ""})
 
 @app.route("/api/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
-    exists = Users.email_exists(data.get("email"))
+    exists = Users.email_exists(data.get("email"), data.get("twitch_un"))
     if not exists:
         new_user = Users(data.get("email"), data.get("twitch_un"), data.get("password"))
         new_user._insert()
@@ -40,26 +39,28 @@ def logout():
 
 @app.route("/api/get_my_performers", methods=["POST"])
 def get_my_performers():
-    # this will need to get token from session and match to twitch_id
-    token = request.json().get("token")
+    data = request.get_json()
+    token = data.get("token")
     user_info = Users.authenticate(token)
-    user = Users(user_info[0], user_info[1], user_info[2])
-    performers = User.my_performers(user_info[3])
+    user = Users(user_info[0][1], user_info[0][2], user_info[0][4], twitch_id=user_info[0][3])
+    performers = user.my_performers(user_info[0][3])
     # return all those performers to React
     return jsonify(performers)
 
 @app.route("/api/synch_twitch_performers", methods=["POST"])
 def synch_performers():
-    # get user_id/token from session
-    # token = request.json().get("token")
-    # user_id = Users.authenticate(token)
-    # user = Users(user_info[0], user_info[1], user_info[2])
-    user = Users("testE3", "dj_ignifluous", "testPW3", twitch_id="512690582")
-    # make call to twitch for this user
-    user.performers_by_music("512690582")
+    data = request.get_json()
+    token = data.get("token")
+    user_info = Users.authenticate(token)
+    user = Users(user_info[0][1], user_info[0][2], user_info[0][4], twitch_id=user_info[0][3])
+    # make call to twitch for all the artists this user follows
+    status = user.performers_by_music(user_info[0][3])
     # return all user follows from DB
-    performers = user.my_performers("512690582")
-    return jsonify(performers)
+    # performers = user.my_performers(user_info[0][3])
+    if status:
+        return jsonify({"synch": "successful"})
+    else:
+        return jsonify({"synch": ""})
 
 @app.route("/api/schedule_sets", methods=["POST"])
 def schedule():

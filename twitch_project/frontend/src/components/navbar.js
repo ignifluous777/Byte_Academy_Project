@@ -21,6 +21,7 @@ export default function NavBar({ token, setToken }) {
       :
       <>
       <Link to="/signup">Signup</Link>
+      <Link to="/login">Login</Link>
       </>
       }
     </div>
