@@ -30,10 +30,10 @@ def create_account():
     
 @app.route("/api/logout", methods=["POST"])
 def logout():
-    # token = request.json().get("token")
-    # user_id = Users.authenticate(token)
-    # user = Users(user_info[0], user_info[1], user_info[2])
-    user = Users("testE", "testUN", "testPass")
+    data = request.get_json()
+    token = data.get("token")
+    user_info = Users.authenticate(token)
+    user = Users(user_info[0][1], user_info[0][2], user_info[0][4])
     user.logout()
     return jsonify({"logout": "successful"})
 

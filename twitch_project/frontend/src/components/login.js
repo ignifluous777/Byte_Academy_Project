@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 // import { postRequest, getRequest } from './models'
 
-export default function Login() {
+export default function Login({setToken}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    // function signIn(em, pw) {
-    //     // request to login
-    // }
 
     const login = async () => {
         const configs = {
@@ -19,6 +16,7 @@ export default function Login() {
         };
         const response = await fetch("http://localhost:5000/api/login", configs);
         const data = await response.json();
+        setToken(data["token"])
         console.log(data);
       }
     return(

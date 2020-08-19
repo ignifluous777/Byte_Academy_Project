@@ -10,11 +10,19 @@ export default function NavBar({ token, setToken }) {
 
   return (
     <div>
-        <Link to="/signup">Signup</Link>
+      { token ?
+      <>
+        {/* <Link to="/signup">Signup</Link> */}
         <Link to="/user_home">User Home</Link>
         <Link to="/scheduler">Scheduler</Link>
         {/* <Link to="/logout" onClick={Logout}>Logout</Link> */}
         <Link to="/logout">Logout</Link>
+      </>
+      :
+      <>
+      <Link to="/signup">Signup</Link>
+      </>
+      }
     </div>
   )
 }

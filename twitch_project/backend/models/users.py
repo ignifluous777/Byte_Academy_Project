@@ -105,13 +105,15 @@ class Users(ORM):
     def authenticate(cls, token):
         # select statement here to see if data exists where our unique id = input id
         # might return an instance, or a tuple etc.
+        print(token)
         with sqlite3.connect(cls.dbpath) as conn:
             cursor = conn.cursor()
-            sql = """SELECT * FROM users WHERE token=?;"""
-            cursor.execute(sql, token)
-            if cursor.fetchall():
-                # if token not there
-                return cursor.fetchall()
+            sql = """SELECT * FROM users WHERE auth_token=?;"""
+            cursor.execute(sql, (token,))
+            data = cursor.fetchall()
+            if data:
+                # if user auth_token matches session storage
+                return data
             return False
 
     # this will be called by a synch performers from twitch you your library function in flask
