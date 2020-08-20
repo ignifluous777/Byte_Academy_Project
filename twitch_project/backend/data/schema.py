@@ -20,7 +20,8 @@ def schema(dbpath="twitchapp.db"):
             id VARCHAR(16), 
             username VARCHAR(16) UNIQUE NOT NULL,
             bio VARCHAR(150),
-            logo VARCHAR(500)
+            logo VARCHAR(500),
+            banner VARCHAR(500)
         );""")
 
         cur.execute("""

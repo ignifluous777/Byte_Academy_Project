@@ -4,12 +4,13 @@ from .orm import ORM
 
 class Performers(ORM):
 
-    def __init__(self, twitch_id, username, bio, prof_pic, pk=None):
+    def __init__(self, twitch_id, username, bio, logo, banner, pk=None):
         self.pk = pk
         self.twitch_id = twitch_id
         self.username = username
         self.bio = bio
-        self.prof_pic = prof_pic
+        self.logo = logo
+        self.banner = banner
 
     def _insert(self):
     # Add a new performer to the database
@@ -21,9 +22,9 @@ class Performers(ORM):
             exists = cursor.fetchone()
             if not exists:
                 sql2 = """INSERT INTO performers (
-                            id, username, bio, logo
-                            ) VALUES(?,?,?,?);"""
-                values2 = (self.twitch_id, self.username, self.bio, self.prof_pic)
+                            id, username, bio, logo, banner
+                            ) VALUES(?,?,?,?,?);"""
+                values2 = (self.twitch_id, self.username, self.bio, self.logo, self.banner)
                 cursor.execute(sql2, values2)
 
     def bind_user_perf(self, user_id):
@@ -46,5 +47,5 @@ class Performers(ORM):
         with sqlite3.connect(self.dbpath) as conn:
             cursor = conn.cursor()
             sql = """UPDATE performers SET bio=?, prof_pic=? WHERE twitch_id=?;"""
-            values = (self.bio, self.prof_pic, self.twitch_id)
+            values = (self.bio, self.logo, self.twitch_id)
             cursor.execute(sql, values)

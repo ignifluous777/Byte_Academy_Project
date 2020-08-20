@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { postRequest } from './models';
+import Performer from './performer'
 
 function User_home() {
 
   const token = sessionStorage.getItem("token")
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState([]);
   const [mess, setMess] = useState("");
 
   const synch = async () => {
@@ -41,8 +42,14 @@ function User_home() {
       <div>
           <button onClick={synch}>Synch!</button>
           <button onClick={getmyperformers}>Show My Performer Library!</button>
+          <p></p>
           <p style={{fontSize: '20px'}}>{mess}</p>
-          <p>{output}</p>
+          <p></p>
+          <div id="performers" style={{columnCount: "3"}}>
+            {output.map((perf, index)=> (
+              <Performer key={index} perf={perf} />
+            ))}
+          </div>
       </div>
   )
 }
