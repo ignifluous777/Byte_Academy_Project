@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from models.users import Users
 from models.performers import Performers
+from models.scheduler import Schedule
 from pprint import pprint
 
 app = Flask(__name__)
@@ -63,13 +64,26 @@ def synch_performers():
     else:
         return jsonify({"synch": ""})
 
-@app.route("/api/schedule_sets", methods=["POST"])
+@app.route("/api/schedule", methods=["POST"])
 def schedule():
-    # authenticate user
-    token = request.json().get("token")
-    user_id = Users.authenticate(token)
-    user = Users(user_info[0], user_info[1], user_info[2])
-    # get schedule info from react
-    # lookup performers to add
-    # send back the data to React
+    data = request.get_json()
+    token = data.get("token")
+    user_info = Users.authenticate(token)
+    user = Users(user_info[0][1], user_info[0][2], user_info[0][4], twitch_id=user_info[0][3])
+    # get schedule info from react the "data" coming in will need to have a lot of info 
+    # i.e. date, a time slots array, a performers array, user_id will come from the auth here in the route,
+    # and the unique sked_id generated here:
+    sked_id = sked_id_gen()
+    time_slots = data.get("time_slots")
+    performers = data.get("perfomers")
+    for i in len(time_slots):
+        sked = Schedule(user.twitch_id, data.get("data"), time_slots[i], performers[i], sked_id)
+        sked._insert()
+    return jsonify({"create": "successful"})
 
+# sked_id key generator helper function:
+
+def sked_id_gen():
+    letters = string.ascii_letters
+    sk_id = ''.join(random.choice(letters) for i in range(16))
+    return sk_id

@@ -31,12 +31,21 @@ def schema(dbpath="twitchapp.db"):
             performer_id VARCHAR(16)
         );""")
 
-        # cur.execute("""
-        # INSERT INTO users 
-        #     (email, twitch_un, twitch_id, password)
-        #     VALUES ('testE', 'testUN', 'testID', 'testPass');
-        #     """)
+        cur.execute("""
+        CREATE TABLE schedules (
+            pk INTEGER PRIMARY KEY AUTOINCREMENT,
+            sked_id VARCHAR(16),
+            date VARCHAR(16),
+            time_slot VARCHAR(16),
+            performer_un VARCHAR(16),
+        );""")
 
+        cur.execute("""
+        CREATE TABLE user_schedules (
+            pk INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id VARCHAR(16),
+            sked_id VARCHAR(16)
+        );""")
 
 if __name__ == "__main__":
     schema()

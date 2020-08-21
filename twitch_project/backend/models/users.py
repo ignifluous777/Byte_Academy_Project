@@ -60,13 +60,7 @@ class Users(ORM):
                 sql2 = """SELECT username, bio, logo, banner FROM performers WHERE id=?;"""
                 cursor.execute(sql2, (p_id,))
                 info = cursor.fetchone()
-                # obj = []
-                # obj["username"] = info[0][0]
-                # obj["bio"] = info[0][1]
-                # obj["logo"] = info[0][2]
                 data.append(info)
-                # data.append(info)
-            # print(data)
             return data
 
     # know whether they have an account to make sure we don't create duplicates

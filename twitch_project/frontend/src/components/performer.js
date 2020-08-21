@@ -19,9 +19,9 @@ export default function Performer({perf}) {
     return(
         <div style={divStyle}>
             <p style={{fontSize: '60px'}}>{perf[0]}</p>
-            <img src={perf[2]} width="160" height="160"/>
+            <img src={perf[2]} width="250" height="250"/>
             <p>Description: {perf[1]}</p>
-            <a style={{color: 'red', fontWeight: 'bold'}} href={"https://www.twitch.tv/" + perf[0]}>View {perf[0]} on Twitch</a>
+            <a style={{color: 'red', fontWeight: 'bold'}} href={"https://www.twitch.tv/" + perf[0]} target="_blank" >View {perf[0]} on Twitch</a>
             <p></p>
         </div>
     )
