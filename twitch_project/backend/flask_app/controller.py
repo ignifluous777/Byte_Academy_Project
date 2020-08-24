@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import string, random
 from flask_cors import CORS
 from models.users import Users
 from models.performers import Performers
@@ -73,13 +74,17 @@ def schedule():
     # get schedule info from react the "data" coming in will need to have a lot of info 
     # i.e. date, a time slots array, a performers array, user_id will come from the auth here in the route,
     # and the unique sked_id generated here:
-    sked_id = sked_id_gen()
-    time_slots = data.get("time_slots")
-    performers = data.get("perfomers")
-    for i in len(time_slots):
-        sked = Schedule(user.twitch_id, data.get("data"), time_slots[i], performers[i], sked_id)
+    sk_id = sked_id_gen()
+    print(sk_id)
+    time_slots = data.get("timeSlots")
+    print(time_slots)
+    performers = data.get("performers")
+    print(performers)
+    print(user_info[0][3], data.get("date"), time_slots[0], performers[0])
+    for i in range(len(time_slots)):
+        sked = Schedule(user_info[0][3], data.get("date"), time_slots[i], performers[i], sked_id=sk_id)
         sked._insert()
-    return jsonify({"create": "successful"})
+    return jsonify({"create": "successful", "sk_id": sk_id})
 
 # sked_id key generator helper function:
 
@@ -87,3 +92,11 @@ def sked_id_gen():
     letters = string.ascii_letters
     sk_id = ''.join(random.choice(letters) for i in range(16))
     return sk_id
+
+    
+@app.route("/api/showsked", methods=["POST"])
+def showsked():
+    data = request.get_json()
+    sk_id = data.get("sk_id")
+    schedule = Schedule.get_sked_by_id(sk_id)
+    return jsonify(schedule)

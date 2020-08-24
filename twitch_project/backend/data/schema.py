@@ -37,7 +37,7 @@ def schema(dbpath="twitchapp.db"):
             sked_id VARCHAR(16),
             date VARCHAR(16),
             time_slot VARCHAR(16),
-            performer_un VARCHAR(16),
+            performer_un VARCHAR(16)
         );""")
 
         cur.execute("""

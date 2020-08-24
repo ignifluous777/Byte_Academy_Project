@@ -34,8 +34,19 @@ class Schedule(ORM):
                 sked_id, date, time_slot, performer_un
                 ) VALUES(?, ?, ?, ?);"""
             values1 = (self.sked_id, self.date, self.time_slot, self.performer_un)
-            cursor.execute(sql, values1)
+            cursor.execute(sql1, values1)
             sql2 = """INSERT INTO user_schedules (
                 user_id, sked_id) VALUES(?, ?);"""
             values2 = (self.user_id, self.sked_id)
-            cursor.execute(sql, values2)
+            cursor.execute(sql2, values2)
+    
+    @classmethod
+    def get_sked_by_id(cls, sk_id):
+        with sqlite3.connect(cls.dbpath) as conn:
+            cursor = conn.cursor()
+            sql = """SELECT * from schedules WHERE sked_id=?;"""
+            values = (sk_id, )
+            cursor.execute(sql, values)
+            schedule = cursor.fetchall()
+            # need to sort information here similar to returning all user performers
+            return schedule

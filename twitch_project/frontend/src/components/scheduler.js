@@ -26,9 +26,6 @@ function Scheduler() {
   const [perf7, setPerf7] = useState("");
   const [perf8, setPerf8] = useState("");
 
-  const performers = [perf1, perf2, perf3, perf4, perf5, perf6, perf7, perf8]
-  const timeSlots = [time1, time2, time3, time4, time5, time6, time7, time8]
-
   const divStyle = {
     boxSizing: 'border-box',
     width: '100%',
@@ -38,6 +35,10 @@ function Scheduler() {
   }
 
   const schedule = async () => {
+    
+    const timeSlots = [time1, time2, time3, time4, time5, time6, time7, time8]
+    const performers = [perf1, perf2, perf3, perf4, perf5, perf6, perf7, perf8]
+
     const configs = {
       method: "POST",
       mode: "cors",
@@ -46,26 +47,31 @@ function Scheduler() {
     };
     const response = await fetch("http://localhost:5000/api/schedule", configs);
     const data = await response.json();
-    setMess(data)
+    if (data["create"]) {
+      setMess("Schedule Created Successfully. Link for schedule is: http://localhost:5000/api/showsked  Enter this schedule ID to view it: " + data["sk_id"])
+    } else {
+      setMess("Error creating schedule.")
+    };
     console.log(data);
   }
 
   return (
     <div style={divStyle}>
         <div style={{float: 'center'}}>
-          <p>Time Input Placeholder</p><input id="perf1" size="30" onChange={e => setPerf1(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf2" size="30" onChange={e => setPerf2(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf3" size="30" onChange={e => setPerf3(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf4" size="30" onChange={e => setPerf4(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf5" size="30" onChange={e => setPerf5(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf6" size="30" onChange={e => setPerf6(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf7" size="30" onChange={e => setPerf7(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><p>Time Input Placeholder</p><input id="perf8" size="30" onChange={e => setPerf8(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <input type="date" onChange={e => setDate(e.target.value)}/>
+          <br></br><input type="time" onChange={e => setTime1(e.target.value)}/><input type="text" size="30" onChange={e => setPerf1(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime2(e.target.value)}/><input type="text" size="30" onChange={e => setPerf2(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime3(e.target.value)}/><input type="text" size="30" onChange={e => setPerf3(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime4(e.target.value)}/><input type="text" size="30" onChange={e => setPerf4(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime5(e.target.value)}/><input type="text" size="30" onChange={e => setPerf5(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime6(e.target.value)}/><input type="text" size="30" onChange={e => setPerf6(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime7(e.target.value)}/><input type="text" size="30" onChange={e => setPerf7(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <br></br><input type="time" onChange={e => setTime8(e.target.value)}/><input type="text" size="30" onChange={e => setPerf8(e.target.value)} placeholder="Performer Twitch User Name"/>
         </div>
         <button onClick={schedule}>Schedule!</button>
         <p style={{fontSize: '20px'}}>{mess}</p>
     </div>
-  )
+  );
 
 }
 

@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import Login from './login';
 import Signup from './signup';
 import Scheduler from './scheduler';
+import Show_sked from './showsked'
 import User_home from './user_home';
 import Logout from './logout'
 
@@ -15,6 +16,7 @@ export default function Router ({ token, setToken }) {
           <Route path="/signup" component={Signup} />
           <Route path="/user_home" component={User_home} />
           <Route path="/scheduler" component={Scheduler} />
+          <Route path="/showsked" component={Show_sked} />
           <Route path="/logout" >
             <Logout setToken={setToken} component={Logout} />
           </Route>

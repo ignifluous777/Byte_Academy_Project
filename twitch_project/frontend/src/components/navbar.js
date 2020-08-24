@@ -15,6 +15,7 @@ export default function NavBar({ token, setToken }) {
         {/* <Link to="/signup">Signup</Link> */}
         <Link to="/user_home">User Home</Link>
         <Link to="/scheduler">Scheduler</Link>
+        <Link to="/showsked">View Schedule</Link>
         {/* <Link to="/logout" onClick={Logout}>Logout</Link> */}
         <Link to="/logout">Logout</Link>
       </>
