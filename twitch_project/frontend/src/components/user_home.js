@@ -34,7 +34,7 @@ function User_home() {
     };
     const response = await fetch("http://localhost:5000/api/get_my_performers", configs);
     const data = await response.json();
-    setOutput(data)
+    setOutput(data);
     console.log(data);
   }
 

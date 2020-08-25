@@ -75,11 +75,11 @@ def schedule():
     # i.e. date, a time slots array, a performers array, user_id will come from the auth here in the route,
     # and the unique sked_id generated here:
     sk_id = sked_id_gen()
-    print(sk_id)
+    # print(sk_id)
     time_slots = data.get("timeSlots")
-    print(time_slots)
+    # print(time_slots)
     performers = data.get("performers")
-    print(performers)
+    # print(performers)
     print(user_info[0][3], data.get("date"), time_slots[0], performers[0])
     for i in range(len(time_slots)):
         sked = Schedule(user_info[0][3], data.get("date"), time_slots[i], performers[i], sked_id=sk_id)

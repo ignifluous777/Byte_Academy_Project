@@ -6,11 +6,11 @@ function Show_sked() {
 
   const [sk_id, setSkid] = useState("");
 //   testing output before sorting and formatting:
-  const [output, setOutput] = useState("")
+//   const [output, setOutput] = useState("")
 //   final should be something like this:
-//   const [date, setDate] = useState("");
-//   const [times, setTimes] = useState("");
-//   const [performers, setPerformers] = useState("");
+  const [date, setDate] = useState("");
+  const [times, setTimes] = useState([]);
+  const [performers, setPerformers] = useState([]);
 
 
   const showSked = async () => {
@@ -24,18 +24,21 @@ function Show_sked() {
     // const response = await fetch(`http://localhost:5000/api/showsked/${sk_id}`, configs);
     const response = await fetch("http://localhost:5000/api/showsked", configs);
     const data = await response.json();
-    setOutput(data)
-    // setDate(data[] )
-    // setTimes(data[] )
-    // setPerfomers(data[] )
     console.log(data);
+    // setOutput(data)
+    setDate(data[0][0]);
+    setTimes(data[1]);
+    setPerformers(data[2]);
+    
   }
 
   return(
       <div>
           <input onChange={e => setSkid(e.target.value)} placeholder="Schedule ID key"/>
           <button onClick={showSked}>Show Schedule!</button>
-          <p>{output}</p>
+          <p>{date}</p>
+          <p>{times}</p>
+          <p>{performers}</p>
       </div>
   )
 }

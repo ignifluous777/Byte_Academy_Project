@@ -28,6 +28,7 @@ export default function Router ({ token, setToken }) {
             <Login setToken={setToken} component={Login}/>
           </Route>
           <Route path="/signup" component={Signup} />
+          <Route path="/showsked" component={Show_sked} />
         </>
       }
     </div>

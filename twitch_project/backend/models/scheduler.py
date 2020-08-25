@@ -14,18 +14,6 @@ class Schedule(ORM):
         self.performer_un = performer_un
         self.sked_id = sked_id
 
-        # CREATE TABLE schedules (
-        #     pk INTEGER PRIMARY KEY AUTOINCREMENT,
-        #     sked_id VARCHAR(16),
-        #     date VARCHAR(16),
-        #     time_slot VARCHAR(16),
-        #     performer_un VARCHAR(16),
-
-        # CREATE TABLE user_schedules (
-        # pk INTEGER PRIMARY KEY AUTOINCREMENT,
-        # user_id VARCHAR(16),
-        # sked_id VARCHAR(16)
-
     # this will need to be executed for each line in the schedule iteration likely happening in the controller
     def _insert(self):
         with sqlite3.connect(self.dbpath) as conn:
@@ -48,5 +36,24 @@ class Schedule(ORM):
             values = (sk_id, )
             cursor.execute(sql, values)
             schedule = cursor.fetchall()
-            # need to sort information here similar to returning all user performers
-            return schedule
+            print(schedule)
+            sort_sked = [[], [], []]
+            sort_sked[0].append(schedule[0][2])
+            for i in range(len(schedule)):
+                sort_sked[1].append(schedule[i][3])
+                sort_sked[2].append(schedule[i][4])
+            print(sort_sked)
+            return sort_sked
+
+
+            perf_ids = cursor.fetchall()
+            perf_lst = []
+            for tup in perf_ids:
+                perf_lst.append(tup[0])
+            data = []
+            for p_id in perf_lst:
+                sql2 = """SELECT username, bio, logo, banner FROM performers WHERE id=?;"""
+                cursor.execute(sql2, (p_id,))
+                info = cursor.fetchone()
+                data.append(info)
+            return data
