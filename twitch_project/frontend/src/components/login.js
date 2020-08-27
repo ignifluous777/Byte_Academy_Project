@@ -26,10 +26,12 @@ export default function Login({setToken}) {
       }
     return(
         <div>
-            <input id="email" onChange={e => setEmail(e.target.value)} placeholder="User Name"/>
-            <input id="password" onChange={e => setPassword(e.target.value)} placeholder="Password"/>
-            <button onClick={login}>Log In</button>
-            <p style={{fontSize: '20px'}}>{failmess}</p>
+            <input type="text" class="input-lg" id="usr" onChange={e => setEmail(e.target.value)} placeholder="User Name"/>
+            <input type="password" class="input-lg" id="pwd" onChange={e => setPassword(e.target.value)} placeholder="Password"/>
+            <br></br>
+            <br></br>
+            <button type="button" class="btn btn-default btn-lg" onClick={login}>Log In</button>
+            <p style={{color: 'white', fontSize: '30px'}}>{failmess}</p>
         </div>
     )
 }

@@ -8,6 +8,10 @@ function User_home() {
   const [output, setOutput] = useState([]);
   const [mess, setMess] = useState("");
 
+  useEffect(() => {
+    getmyperformers();
+  }, [])
+
   const synch = async () => {
     const configs = {
       method: "POST",
@@ -40,16 +44,19 @@ function User_home() {
 
   return(
       <div>
-          <button onClick={synch}>Synch!</button>
-          <button onClick={getmyperformers}>Show My Performer Library!</button>
+          <button type="button" class="btn btn-default btn-lg" onClick={synch}>Synch With Twitch!</button>
+          <button type="button" class="btn btn-default btn-lg" onClick={getmyperformers}>Show My Performer Library!</button>
+          <br></br>
           <p></p>
-          <p style={{fontSize: '20px'}}>{mess}</p>
+          <p style={{color: 'white', fontSize: '30px'}}>{mess}</p>
           <p></p>
-          <div id="performers" style={{columnCount: "3"}}>
+          <br></br>
+          <div id="performers" style={{display: "flex", flexWrap: "wrap"}}>
             {output.map((perf, index)=> (
               <Performer key={index} perf={perf} />
             ))}
           </div>
+          <br></br>
       </div>
   )
 }

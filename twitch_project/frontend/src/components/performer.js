@@ -7,22 +7,24 @@ export default function Performer({perf}) {
 
     const divStyle = {
         color: 'white',
-        fontSize: '40px',
+        textShadow: '2px 2px 4px #000000',
+        fontSize: '50px',
         boxSizing: 'border-box',
-        width: '100%',
-        height: '100%', 
-        padding: '80px 1em 0 1em',
+        flex: "33%",
+        // width: '100%',
+        // height: '100%', 
+        padding: '40px',
         borderStyle: 'outset',
-        backgroundImage: `${bg}`
+        backgroundImage: `${bg}`,
+        backgroundSize: 'cover'
     }
 
     return(
         <div style={divStyle}>
-            <p style={{fontSize: '60px'}}>{perf[0]}</p>
+            <p style={{fontSize: '60px', fontWeight: 'bold'}}>{perf[0]}</p>
             <img src={perf[2]} width="250" height="250"/>
             <p>Description: {perf[1]}</p>
             <a style={{color: 'red', fontWeight: 'bold'}} href={"https://www.twitch.tv/" + perf[0]} target="_blank" >View {perf[0]} on Twitch</a>
-            <p></p>
         </div>
     )
 }

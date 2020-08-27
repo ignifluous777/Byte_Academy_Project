@@ -58,18 +58,30 @@ function Scheduler() {
   return (
     <div style={divStyle}>
         <div style={{float: 'center'}}>
-          <input type="date" onChange={e => setDate(e.target.value)}/>
-          <br></br><input type="time" onChange={e => setTime1(e.target.value)}/><input type="text" size="30" onChange={e => setPerf1(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime2(e.target.value)}/><input type="text" size="30" onChange={e => setPerf2(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime3(e.target.value)}/><input type="text" size="30" onChange={e => setPerf3(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime4(e.target.value)}/><input type="text" size="30" onChange={e => setPerf4(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime5(e.target.value)}/><input type="text" size="30" onChange={e => setPerf5(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime6(e.target.value)}/><input type="text" size="30" onChange={e => setPerf6(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime7(e.target.value)}/><input type="text" size="30" onChange={e => setPerf7(e.target.value)} placeholder="Performer Twitch User Name"/>
-          <br></br><input type="time" onChange={e => setTime8(e.target.value)}/><input type="text" size="30" onChange={e => setPerf8(e.target.value)} placeholder="Performer Twitch User Name"/>
+          <input type="date" id="datepicker" style={{width: "300px", height: "50px"}} onChange={e => setDate(e.target.value)}/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime1(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf1(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime2(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf2(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime3(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf3(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime4(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf4(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime5(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf5(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime6(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf6(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime7(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf7(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
+          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime8(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf8(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br>
         </div>
-        <button onClick={schedule}>Schedule!</button>
-        <p style={{fontSize: '20px'}}>{mess}</p>
+        <br></br>
+        <button type="button" class="btn btn-default btn-lg" onClick={schedule}>Schedule!</button>
+        <br></br>
+        <p style={{color: 'white', fontSize: '40px'}}>{mess}</p>
+        <br></br>
     </div>
   );
 

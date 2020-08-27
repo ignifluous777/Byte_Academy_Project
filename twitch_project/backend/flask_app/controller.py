@@ -100,3 +100,10 @@ def showsked():
     sk_id = data.get("sk_id")
     schedule = Schedule.get_sked_by_id(sk_id)
     return jsonify(schedule)
+
+# @app.route("/api/showsked/<sk_id>", methods=["POST"])
+# def showsked():
+#     # data = request.get_json()
+#     sk_id = data.get("sk_id")
+#     schedule = Schedule.get_sked_by_id(sk_id)
+#     return jsonify(schedule)

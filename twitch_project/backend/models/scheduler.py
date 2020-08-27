@@ -37,11 +37,9 @@ class Schedule(ORM):
             cursor.execute(sql, values)
             schedule = cursor.fetchall()
             print(schedule)
-            sort_sked = [[], [], []]
-            sort_sked[0].append(schedule[0][2])
+            sort_sked = []
             for i in range(len(schedule)):
-                sort_sked[1].append(schedule[i][3])
-                sort_sked[2].append(schedule[i][4])
+                sort_sked.append([schedule[i][2], schedule[i][3], schedule[i][4]])
             print(sort_sked)
             return sort_sked
 
