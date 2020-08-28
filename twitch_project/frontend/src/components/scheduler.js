@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { postRequest } from './models';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
+// import TextField from '@material-ui/core/TextField';
+// import { postRequest } from './models';
+// import { withRouter } from 'react-router-dom';
 
 function Scheduler() {
 
   const token = sessionStorage.getItem("token")
   const [mess, setMess] = useState("");
+  const [mess2, setMess2] = useState("");
+  const [mess3, setMess3] = useState("");
 
   const [date, setDate] = useState("");
 
@@ -27,11 +32,41 @@ function Scheduler() {
   const [perf8, setPerf8] = useState("");
 
   const divStyle = {
-    boxSizing: 'border-box',
-    width: '100%',
-    height: '100%', 
-    padding: '80px 1em 0 1em',
-    borderStyle: 'outset',
+    // boxSizing: 'border-box',
+    // width: '100%',
+    // height: '100%', 
+    // padding: '80px 1em 0 1em',
+    // borderStyle: 'outset'
+    margin: '10px',
+    backgroundColor: '#ffe8fd',
+    border: '1px solid black',
+    opacity: '0.8' 
+  }
+  const timeStyle = {
+    width: "150px", 
+    height: "50px",
+    color: "black",
+    fontWeight: 'bold', 
+    border: '2px solid black',
+  }
+  const perfStyle = {
+    width: "400px", 
+    height: "50px",
+    color: "black",
+    fontWeight: 'bold', 
+    border: '2px solid black'
+  }
+  const checkSked = {
+    fontSize: '25px', 
+    color: '#f00a79', 
+    fontWeight: 'bold', 
+    textShadow: '2px 2px 4px #960b4e'
+  }
+  const messFont = {
+    fontSize: '25px', 
+    color: 'black', 
+    fontWeight: 'bold', 
+    textShadow: '2px 2px 4px #960b4e'
   }
 
   const schedule = async () => {
@@ -48,7 +83,9 @@ function Scheduler() {
     const response = await fetch("http://localhost:5000/api/schedule", configs);
     const data = await response.json();
     if (data["create"]) {
-      setMess("Schedule Created Successfully. Link for schedule is: http://localhost:5000/api/showsked  Enter this schedule ID to view it: " + data["sk_id"])
+      setMess("Schedule Created Successfully!")
+      setMess2("Sharable link for schedule is: http://localhost:3000/skedwithid/" + data["sk_id"])
+      setMess3("You may also view the schedule manually on the schedule page with this code:  " + data["sk_id"])
     } else {
       setMess("Error creating schedule.")
     };
@@ -58,29 +95,34 @@ function Scheduler() {
   return (
     <div style={divStyle}>
         <div style={{float: 'center'}}>
-          <input type="date" id="datepicker" style={{width: "300px", height: "50px"}} onChange={e => setDate(e.target.value)}/>
+          <h2 style={{fontSize: '50px', color: '#f00a79', fontWeight: 'bold', textShadow: '2px 2px 4px #960b4e',}}>Scheduler</h2>
+          <h4 style={{fontSize: '30px', color: '#f00a79', fontWeight: 'bold', textShadow: '2px 2px 4px #960b4e',}}>Create Your Own "Digital Music Festival"</h4>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime1(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf1(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <input type="date" id="datepicker" style={{color: 'black', width: "300px", height: "50px", border: '2px solid black'}} onChange={e => setDate(e.target.value)}/>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime2(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf2(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime1(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf1(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf1 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime3(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf3(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime2(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf2(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf2 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime4(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf4(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime3(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf3(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf3 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime5(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf5(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime4(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf4(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf4 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime6(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf6(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime5(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf5(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf5 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime7(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf7(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime6(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf6(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf6 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
-          <br></br><input type="time" style={{width: "150px", height: "50px"}} onChange={e => setTime8(e.target.value)}/><input type="text" style={{width: "400px", height: "50px"}} onChange={e => setPerf8(e.target.value)} placeholder="Performer's Twitch User Name"/>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime7(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf7(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf7 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
+          <br></br>
+          <br></br><input type="time" style={timeStyle} onChange={e => setTime8(e.target.value)}/>&nbsp;<input type="text" style={perfStyle} onChange={e => setPerf8(e.target.value)} placeholder="Performer's Twitch User Name"/>&nbsp;<a style={checkSked} href={"https://www.twitch.tv/" + perf8 + "/schedule"} target="_blank" >Check Schedule on Twitch</a>
           <br></br>
         </div>
         <br></br>
-        <button type="button" class="btn btn-default btn-lg" onClick={schedule}>Schedule!</button>
+        <button type="button" style={perfStyle} class="btn btn-default btn-lg" onClick={schedule}>Schedule!</button>
         <br></br>
-        <p style={{color: 'white', fontSize: '40px'}}>{mess}</p>
+        <p style={messFont}>{mess}</p>
+        <p style={messFont}>{mess2}</p>
+        <p style={messFont}>{mess3}</p>
         <br></br>
     </div>
   );

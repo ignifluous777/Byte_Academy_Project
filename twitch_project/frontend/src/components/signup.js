@@ -33,12 +33,23 @@ export default function Signup() {
 
     return(
         <div>
-            <input id="email" onChange={e => setEmail(e.target.value)} placeholder="User Name"/>
-            <input id="password" onChange={e => setPassword(e.target.value)} placeholder="Password"/>
-            <input id="confirm_password" onChange={e => setConfpass(e.target.value)} placeholder="Confirm Password"/>
-            <input id="twitch_un" onChange={e => setTwitchUn(e.target.value)} placeholder="Twitch Username"/>
-            <button onClick={signup}>Create Account</button>
-            <p style={{fontSize: '20px'}}>{mess}</p>
+            <br></br>
+            <br></br>
+            <input type="text" style={{fontWeight: 'bold', border: '2px solid black'}} class="input-lg" id="usr" onChange={e => setEmail(e.target.value)} placeholder="User Name"/>
+            <br></br>
+            <br></br>
+            <input type="password" style={{fontWeight: 'bold', border: '2px solid black'}} class="input-lg" id="pwd" onChange={e => setPassword(e.target.value)} placeholder="Password"/>
+            <br></br>
+            <br></br>
+            <input type="password" style={{fontWeight: 'bold', border: '2px solid black'}} class="input-lg" id="pwd" onChange={e => setConfpass(e.target.value)} placeholder="Confirm Password"/>
+            <br></br>
+            <br></br>
+            <input type="text" style={{fontWeight: 'bold', border: '2px solid black'}} class="input-lg" id="usr" onChange={e => setTwitchUn(e.target.value)} placeholder="Twitch Username"/>
+            <br></br>
+            <br></br>
+            <button type="button" style={{fontWeight: 'bold', border: '2px solid black'}} class="btn btn-default btn-lg" onClick={signup}>Create Account</button>
+            <br></br>
+            <p style={{color: 'black', fontSize: '30px'}}>{mess}</p>
         </div>
     )
 }

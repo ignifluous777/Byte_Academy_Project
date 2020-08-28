@@ -99,7 +99,11 @@ def showsked():
     data = request.get_json()
     sk_id = data.get("sk_id")
     schedule = Schedule.get_sked_by_id(sk_id)
-    return jsonify(schedule)
+    print(schedule)
+    if schedule != []:
+        return jsonify(schedule)
+    else:
+        return jsonify("")
 
 # @app.route("/api/showsked/<sk_id>", methods=["POST"])
 # def showsked():

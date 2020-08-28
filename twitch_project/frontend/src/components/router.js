@@ -8,6 +8,10 @@ import Show_sked from './showsked'
 import User_home from './user_home';
 import Logout from './logout'
 
+// function Sked() {
+//   let { id } = useParams();
+// }
+
 export default function Router ({ token, setToken }) {
   return (
     <div>
@@ -18,7 +22,7 @@ export default function Router ({ token, setToken }) {
             <Route path="/user_home" component={User_home} />
             <Route path="/scheduler" component={Scheduler} />
             <Route path="/showsked" component={Show_sked} />
-            <Route path="/showsked/:id" component={Show_sked} />
+            <Route path="/skedwithid/:id" component={Show_sked} />
             <Route path="/logout" >
               <Logout setToken={setToken} component={Logout} />
             </Route>
@@ -33,7 +37,7 @@ export default function Router ({ token, setToken }) {
           </Route>
           <Route path="/signup" component={Signup} />
           <Route path="/showsked" component={Show_sked} />
-          <Route path="/showsked/:id" component={Show_sked} />
+          <Route path="/skedwithid/:id" component={Show_sked} />
         </>
       }
     </div>
