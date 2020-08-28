@@ -8,8 +8,9 @@ function Scheduler() {
 
   const token = sessionStorage.getItem("token")
   const [mess, setMess] = useState("");
-  const [mess2, setMess2] = useState("");
+  // const [mess2, setMess2] = useState("");
   const [mess3, setMess3] = useState("");
+  const [mess4, setMess4] = useState("");
 
   const [date, setDate] = useState("");
 
@@ -84,8 +85,9 @@ function Scheduler() {
     const data = await response.json();
     if (data["create"]) {
       setMess("Schedule Created Successfully!")
-      setMess2("Sharable link for schedule is: http://localhost:3000/skedwithid/" + data["sk_id"])
-      setMess3("You may also view the schedule manually on the schedule page with this code:  " + data["sk_id"])
+      // setMess2("Logged in link: http://localhost:3000/showsked/" + data["sk_id"])
+      setMess3("http://localhost:3000/skedwithid/" + data["sk_id"])
+      setMess4("You may also view the schedule manually on the schedule page with this code:  " + data["sk_id"])
     } else {
       setMess("Error creating schedule.")
     };
@@ -121,8 +123,9 @@ function Scheduler() {
         <button type="button" style={perfStyle} class="btn btn-default btn-lg" onClick={schedule}>Schedule!</button>
         <br></br>
         <p style={messFont}>{mess}</p>
-        <p style={messFont}>{mess2}</p>
-        <p style={messFont}>{mess3}</p>
+        {/* <p style={messFont}>{mess2}</p> */}
+        <p style={messFont}>Sharable link for schedule is: <a style={checkSked} href={mess3}>{mess3}</a></p>
+        <p style={messFont}>{mess4}</p>
         <br></br>
     </div>
   );
