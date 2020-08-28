@@ -23,7 +23,7 @@ export default function Logout({setToken}) {
 
     return(
         <div>
-            <p>Logged out successfully.</p>
+            <p style={{color: 'white', fontSize: '30px'}}>Logged out successfully.</p>
         </div>
     )
     }

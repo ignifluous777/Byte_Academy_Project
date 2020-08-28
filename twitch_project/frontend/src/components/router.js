@@ -18,7 +18,7 @@ export default function Router ({ token, setToken }) {
       { token ? 
         <>
           <Switch>
-            <Route path="/signup" component={Signup} />
+            {/* <Route path="/signup" component={Signup} /> */}
             <Route path="/user_home" component={User_home} />
             <Route path="/scheduler" component={Scheduler} />
             <Route path="/showsked" component={Show_sked} />
@@ -31,13 +31,15 @@ export default function Router ({ token, setToken }) {
         </>
         :
         <>
-          <Redirect from="/" to="/login" />
-          <Route path="/login" >
-            <Login setToken={setToken} component={Login}/>
-          </Route>
-          <Route path="/signup" component={Signup} />
-          <Route path="/showsked" component={Show_sked} />
-          <Route path="/skedwithid/:id" component={Show_sked} />
+          {/* <Switch> */}
+            <Redirect from="/" to="/login" />
+            <Route path="/login" >
+              <Login setToken={setToken} component={Login}/>
+            </Route>
+            <Route path="/signup" component={Signup} />
+            <Route path="/showsked" component={Show_sked} />
+            <Route path="/skedwithid/:id" component={Show_sked} />
+          {/* </Switch> */}
         </>
       }
     </div>

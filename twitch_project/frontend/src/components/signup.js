@@ -49,7 +49,7 @@ export default function Signup() {
             <br></br>
             <button type="button" style={{fontWeight: 'bold', border: '2px solid black'}} class="btn btn-default btn-lg" onClick={signup}>Create Account</button>
             <br></br>
-            <p style={{color: 'black', fontSize: '30px'}}>{mess}</p>
+            <p style={{color: 'white', fontSize: '30px'}}>{mess}</p>
         </div>
     )
 }

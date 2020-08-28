@@ -48,7 +48,7 @@ function User_home() {
           <button type="button" style={{fontWeight: 'bold', border: '2px solid black'}} class="btn btn-default btn-lg" onClick={getmyperformers}>Show My Performer Library!</button>
           <br></br>
           <p></p>
-          <p style={{color: 'black', fontSize: '30px'}}>{mess}</p>
+          <p style={{color: 'white', fontSize: '30px'}}>{mess}</p>
           <p></p>
           <br></br>
           <div id="performers" style={{display: "flex", flexWrap: "wrap"}}>
